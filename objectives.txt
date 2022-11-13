@@ -1,0 +1,15 @@
+FPS completion requirements
+
+1. Multiplayer experience
+- scoreboard
+- voting system (next gamemode, map)
+- lag compensation
+
+2. 3 maps, 3 gamemodes 
+(FFA, King, Capture)
+
+3. Bot Support (even if it's lame)
+
+4. Player Skins (EZ use Kent capsule skins)
+
+5. Good variety of guns and powerups
