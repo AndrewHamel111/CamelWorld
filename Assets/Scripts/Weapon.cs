@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 // A major change is being made to the weapon class.
@@ -14,116 +13,151 @@ public class Weapon : MonoBehaviour
 {
     [Header("Weapon Stats")]
     [Tooltip("Damage of the weapon")]
-    [SerializeField] public int damage;
+    [SerializeField]
+    private int _damage;
+    
     [Tooltip("Maximum range of the weapon in Unity units")]
-    [SerializeField] public float range;
+    [SerializeField]
+    private float _range;
+    public float Range => _range;
+
     [Tooltip("WeaponType determines what sprint/draw animations play and the ammo type")]
-    [SerializeField] public WeaponType type;
+    [SerializeField]
+    private WeaponType _type;
+    public WeaponType Type => _type;
+    
     [Tooltip("When true the fire button can be held to fire multiple shots in sequence")]
-    [SerializeField] public bool fullAuto;
+    [SerializeField]
+    private bool _fullAuto;
+    public bool FullAuto => _fullAuto;
+    
     [Tooltip("Capacity of a full clip")]
-    [SerializeField] public int clipCapacity;
+    [SerializeField]
+    private int _clipCapacity;
+    public int ClipCapacity => _clipCapacity;
+    
     [Tooltip("Maximum reserve ammunition of the weapon (LIKELY TO BE DEPRECATED)")]
-    [SerializeField] public int maxReserve;
+    [SerializeField]
+    private int _maxReserve;
 
     [Header("Recoil and Spread")]
     [Tooltip("Time between shots")]
-    [SerializeField] public float fireDelay;
+    [SerializeField]
+    private float _fireDelay;
+    
     [Tooltip("Time that must pass before recoil is reset")]
-    [SerializeField] public float recoilDelay;
+    [SerializeField]
+    private float _recoilDelay;
+    
     [Tooltip("Degrees the shots are rotated up (CONSISTENT)")]
-    [SerializeField] private float kick; // degrees the shots are "rotated" up
+    [SerializeField]
+    private float _kick; // degrees the shots are "rotated" up
+    
     [Tooltip("Degrees the shots are rotated in random directions (RANDOM)")]
-    [SerializeField] private float spread; // degrees the shots are "rotated" in a random direction
+    [SerializeField]
+    private float _spread; // degrees the shots are "rotated" in a random direction
 
     [Header("Tracer Settings")]
     [Tooltip("Color of the tracer line")]
-    [SerializeField] public Color tracerColor;
+    [SerializeField]
+    private Color _tracerColor;
+    public Color TracerColor => _tracerColor;
+
     [Tooltip("Height in Unity units of the tracer line")]
-    [SerializeField] public float tracerHeight;
+    [SerializeField]
+    private float _tracerHeight;
+    public float TracerHeight => _tracerHeight;
+
     [Tooltip("Duration/Lifespan of the tracer line")]
-    [SerializeField] public float tracerLife;
+    [SerializeField]
+    private float _tracerLife;
+    public float TracerLife => _tracerLife;
 
     // runtime
     [Header("Runtime Variables")]
-    public int clip;
-    public int reserve;
-    public bool isFiring = false;
-    public bool isFireAnimationPlaying = false;
-    public bool isReloading = false;
+    private int _clip;
+    private int _reserve;
+    private bool _isFiring = false;
+    private bool _isFireAnimationPlaying = false;
+    private bool _isReloading = false;
 
-    [SerializeField] public float reloadAnimationTime;
-    [SerializeField] public float fireAnimationTime;
+    public int Clip => _clip;
+    public int Reserve => _reserve;
+    public bool IsFiring => _isFiring;
+    public bool IsReloading => _isReloading;
+
+    [SerializeField]
+    private float _reloadAnimationTime;
+    
+    [SerializeField]
+    private float _fireAnimationTime;
 
     [Tooltip("Sound the weapon makes when firing")]
-    [SerializeField] public AudioClip fireSound;
+    [SerializeField]
+    private AudioClip _fireSound;
+    
     [Tooltip("Allowed pitch variance of the weapon's fire sound")]
-    [SerializeField] public float fireSoundPitchVariance;
-    [SerializeField] public Animator animator;
+    [SerializeField]
+    private float _fireSoundPitchVariance;
+    
+    [SerializeField]
+    private Animator _animator;
+
+    private GameManager _gameManager;
+
+    private void Start()
+    {
+        _gameManager = GameManager.Instance;
+    }
 
     public void PlayFireAnimation()
     {
-        clip--;
-        isFiring = true;
-        isFireAnimationPlaying = true;
+        _clip--;
+        _isFiring = true;
+        _isFireAnimationPlaying = true;
 
-        animator.Play("none");
-        animator.Play("fire");
+        _animator.Play("none");
+        _animator.Play("fire");
 
-        GameManager.Instance.PlaySound(fireSound, this.transform.position);
+        _gameManager.PlaySound(_fireSound, this.transform.position);
 
-        Invoke("FinishFire", fireDelay);
-        //StartCoroutine(FinishFire());
-        //Debug.Log("Fire");
+        Invoke("FinishFire", _fireDelay);
     }
 
     public void PlayReloadAnimation()
     {
-        isReloading = true;
+        _isReloading = true;
 
-        animator.Play("reload");
+        _animator.Play("reload");
 
-        //Invoke("Reload", reloadAnimationTime);
         StartCoroutine(FinishReload());
     }
 
     void FinishFire()
     {
-        isFiring = false;
+        _isFiring = false;
         ResetGunState();
     }
 
     // function waits until reload is finished to reset gun state
     IEnumerator FinishReload()
     {
-        while(isReloading)
+        while(_isReloading)
         {
             yield return null;
         }
 
-        int bulletsNeeded = Mathf.Min(clipCapacity - clip, reserve);
-        clip += bulletsNeeded;
-        reserve -= bulletsNeeded;
+        int bulletsNeeded = Mathf.Min(_clipCapacity - _clip, _reserve);
+        _clip += bulletsNeeded;
+        _reserve -= bulletsNeeded;
         ResetGunState();
     }
-
-    /*
-    private void Reload()
-    {
-        isReloading = false;
-
-        int bulletsNeeded = Mathf.Min(clipCapacity - clip, reserve);
-        clip += bulletsNeeded;
-        reserve -= bulletsNeeded;
-        ResetGunState();
-    }
-    */
 
     private void ResetGunState()
     {
-        if (clip == 0)
-            animator.Play("empty");
+        if (_clip == 0)
+            _animator.Play("empty");
         else
-            animator.Play("none");
+            _animator.Play("none");
     }
 }

@@ -11,75 +11,114 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
     // player constants
-    [SerializeField] float maxPlayerSpeed;
-    [SerializeField] float sprintBonus;
-    [SerializeField] float sprintAnimationPeriod;
-    [SerializeField] float jumpSpeed;
-    [SerializeField] float rollAngle;
-    [SerializeField] float duckGunAngle;
-    [SerializeField] float cameraRollFactor;
-    [SerializeField, Range(0.0f,1.0f)] float lookSensitivity;
-    [SerializeField] float gravity = -9.81f;
-    [SerializeField] float groundDistance = 0.1f;
-    [SerializeField] float chestReach = 3.0f;
-    [SerializeField] LayerMask groundMask;
-    [SerializeField] LayerMask interactableMask;
+    [SerializeField] 
+    private float _maxPlayerSpeed;
+    
+    [SerializeField] 
+    private float _sprintBonus;
+    
+    [SerializeField] 
+    private float _sprintAnimationPeriod;
+    
+    [SerializeField] 
+    private float _jumpSpeed;
+    
+    [SerializeField] 
+    private float _rollAngle;
+    
+    [SerializeField] 
+    private float _duckGunAngle;
+    
+    [SerializeField] 
+    private float _cameraRollFactor;
+    
+    [SerializeField, Range(0.0f,1.0f)]
+    private float _lookSensitivity;
 
-    [SerializeField] LayerMask targets;
+    [SerializeField] 
+    private float _gravity = -9.81f;
+    
+    [SerializeField] 
+    private float _groundDistance = 0.1f;
+    
+    [SerializeField] 
+    private float _chestReach = 3.0f;
+    
+    [SerializeField] 
+    private LayerMask _groundMask;
+    
+    [SerializeField] 
+    private LayerMask _interactableMask;
+
+
+    [SerializeField] LayerMask _targets;
 
     // movement variables
-    private Vector3 velocity;
-    private bool isGrounded;
-    public float sprintStartTime;
+    private Vector3 _velocity;
+    private bool _isGrounded;
+    private float _sprintStartTime;
 
     // weapon variables
-    private bool canFire;
-    private bool canReload;
-    public Weapon weapon;
+    private bool _canFire;
+    private bool _canReload;
+    public Weapon _weapon;
 
     // other variables
-    //bool inChestRange;
-    LootChest currentChest;
-    LootChest raycastChest;
-    LootChest triggerChest;
+    LootChest _currentChest;
+    LootChest _raycastChest;
+    LootChest _triggerChest;
 
     // input management
-    private InputManager inputManager;
-    private Vector2 moveInput;
-    private Vector2 lookInput;
-    private bool fireHeld;
-    private bool jumpNext;
-    private bool sprintHeld;
-    private bool duckHeld;
-    private float xRotation;
+    private InputManager _inputManager;
+    private Vector2 _moveInput;
+    private Vector2 _lookInput;
+    private bool _fireHeld;
+    private bool _jumpNext;
+    private bool _sprintHeld;
+    private bool _duckHeld;
+    private float _xRotation;
 
     // unity components
-    [SerializeField] CharacterController controller;
-    [SerializeField] CapsuleCollider capsuleCollider;
-    [SerializeField] Camera playerCamera;
-    [SerializeField] Transform groundCheck;
+    [SerializeField]
+    CharacterController _controller;
+
+    [SerializeField]
+    CapsuleCollider _capsuleCollider;
+
+    [SerializeField]
+    Camera _playerCamera;
+
+    [SerializeField]
+    Transform _groundCheck;
 
     // unity references
     // HUD components
-    [SerializeField] Text clipText;
-    [SerializeField] Text reserveText;
-    [SerializeField] Text interactText;
+    [SerializeField]
+    Text _clipText;
+
+    [SerializeField]
+    Text _reserveText;
+
+    [SerializeField]
+    Text _interactText;
+
+    private GameManager _gameManager;
 
     private void Awake()
     {
-        inputManager = new InputManager();
-        inputManager.PlayerControls.Jump.performed += OnJump;
-        inputManager.PlayerControls.Fire.performed += OnFire;
-        inputManager.PlayerControls.Sprint.performed += OnSprint;
-        inputManager.PlayerControls.Reload.performed += OnReload;
-        inputManager.PlayerControls.Interact.performed += OnInteract;
-        xRotation = 0;
+        _inputManager = new InputManager();
+        _inputManager.PlayerControls.Jump.performed += OnJump;
+        _inputManager.PlayerControls.Fire.performed += OnFire;
+        _inputManager.PlayerControls.Sprint.performed += OnSprint;
+        _inputManager.PlayerControls.Reload.performed += OnReload;
+        _inputManager.PlayerControls.Interact.performed += OnInteract;
+        _xRotation = 0;
         Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void OnFire(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        if (canFire)
+        if (_canFire)
         {
             Shoot();
         }
@@ -87,39 +126,41 @@ public class PlayerController : MonoBehaviour
 
     private void OnReload(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        if (canReload)
+        if (_canReload)
         {
-            //Debug.Log("Reloading..");
-            weapon.PlayReloadAnimation();
+            _weapon.PlayReloadAnimation();
         }
     }
 
     private void OnInteract(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        currentChest = (raycastChest != null && !raycastChest.isOpen) ? raycastChest : (triggerChest != null && !triggerChest.isOpen) ? triggerChest : null;
+        _currentChest = (_raycastChest != null && !_raycastChest.IsOpen) ? _raycastChest : (_triggerChest != null && !_triggerChest.IsOpen) ? _triggerChest : null;
 
-        if (currentChest != null)
+        if (_currentChest != null)
         {
-            currentChest.OnChestOpened();
-            currentChest = null;
+            _currentChest.OnChestOpened();
+            _currentChest = null;
         }
     }
 
     private void OnSprint(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        sprintStartTime = Time.time;
+        _sprintStartTime = Time.time;
     }
 
     private void OnJump(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        if (isGrounded)
-            jumpNext = true;
+        if (_isGrounded)
+        {
+            _jumpNext = true;
+        }
     }
 
     // Start is called before the first frame update
     void Start()
     {
         //canFire = true;
+        _gameManager = GameManager.Instance;
     }
 
     // Update is called once per frame
@@ -128,131 +169,142 @@ public class PlayerController : MonoBehaviour
         UpdateCanBools();
 
         // update HUD elements
-        clipText.text = string.Format("{0}", weapon.clip);
-        reserveText.text = string.Format("{0}", weapon.reserve);
-        interactText.gameObject.SetActive(currentChest != null);
+        _clipText.text = string.Format("{0}", _weapon.Clip);
+        _reserveText.text = string.Format("{0}", _weapon.Reserve);
+        _interactText.gameObject.SetActive(_currentChest != null);
 
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+        _isGrounded = Physics.CheckSphere(_groundCheck.position, _groundDistance, _groundMask);
 
-        if (isGrounded && velocity.y < 0)
+        if (_isGrounded && _velocity.y < 0)
         {
-            velocity.y = -2.0f;
+            _velocity.y = -2.0f;
+        }
+        else
+        {
+            _velocity.y += _gravity * Time.deltaTime;
         }
 
         // some checking raycasts
-        Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward * playerCamera.farClipPlane);
+        Ray ray = new Ray(_playerCamera.transform.position, _playerCamera.transform.forward * _playerCamera.farClipPlane);
         RaycastHit info;
-        if (Physics.Raycast(ray, out info, chestReach, interactableMask))
+        if (Physics.Raycast(ray, out info, _chestReach, _interactableMask))
         {
             if (info.collider.gameObject.tag == "Chest")
             {
-                raycastChest = info.collider.gameObject.GetComponent<LootChest>();
+                _raycastChest = info.collider.gameObject.GetComponent<LootChest>();
             }
             else
-                raycastChest = null;
+            {
+                _raycastChest = null;
+            }
         }
         else
-            raycastChest = null;
+        {
+            _raycastChest = null;
+        }
 
         // move player
-        float playerSpeed = sprintHeld ? maxPlayerSpeed * sprintBonus : maxPlayerSpeed;
-        Vector3 move = transform.right * moveInput.x + transform.forward * moveInput.y;
-        controller.Move(move * playerSpeed * Time.deltaTime);
+        float playerSpeed = _sprintHeld ? _maxPlayerSpeed * _sprintBonus : _maxPlayerSpeed;
+        Vector3 move = transform.right * _moveInput.x + transform.forward * _moveInput.y;
+        _controller.Move(move * playerSpeed * Time.deltaTime);
 
         // apply vertical movement
-        velocity.y += gravity * Time.deltaTime;
-        if (jumpNext)
+        if (_jumpNext)
         {
-            velocity.y = jumpSpeed;
-            jumpNext = false;
+            _velocity.y = _jumpSpeed;
+            _jumpNext = false;
         }
-        controller.Move(velocity * Time.deltaTime);
+        _controller.Move(_velocity * Time.deltaTime);
 
         // read the movement value
-        moveInput = inputManager.PlayerControls.Move.ReadValue<Vector2>();
+        _moveInput = _inputManager.PlayerControls.Move.ReadValue<Vector2>();
 
-        lookInput = inputManager.PlayerControls.Look.ReadValue<Vector2>();
-        lookInput *= lookSensitivity;
-        xRotation -= lookInput.y;
+        _lookInput = _inputManager.PlayerControls.Look.ReadValue<Vector2>();
+        _lookInput *= _lookSensitivity;
+        _xRotation -= _lookInput.y;
 
         //fireHeld = inputManager.PlayerControls.Fire.ReadValue<float>() > 0;
 
         // perform look
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+        _xRotation = Mathf.Clamp(_xRotation, -90f, 90f);
         // adding slight roll to the perspective with motion
-        if (moveInput.x < 0)
-            playerCamera.transform.localRotation = Quaternion.Euler(xRotation, 0, rollAngle * cameraRollFactor);
-        else if (moveInput.x > 0)
-            playerCamera.transform.localRotation = Quaternion.Euler(xRotation, 0, 0 - rollAngle * cameraRollFactor);
-        else
-            playerCamera.transform.localRotation = Quaternion.Euler(xRotation, 0, 0);
-
-        this.transform.Rotate(Vector3.up * lookInput.x);
-
-        sprintHeld = inputManager.PlayerControls.Sprint.phase == UnityEngine.InputSystem.InputActionPhase.Started;
-        duckHeld = inputManager.PlayerControls.Duck.phase == UnityEngine.InputSystem.InputActionPhase.Started;
-        fireHeld = inputManager.PlayerControls.Fire.phase == UnityEngine.InputSystem.InputActionPhase.Started;
-
-        float roll = moveInput.x > 0 ? 0 - rollAngle : moveInput.x < 0 ? rollAngle : 0;
-        roll += duckHeld ? duckGunAngle : 0;
-        // animate gun
-        if (sprintHeld && moveInput.sqrMagnitude > 0)
+        if (_moveInput.x < 0)
         {
-            if (weapon.type == WeaponType.PISTOL || weapon.type == WeaponType.SMG)
+            _playerCamera.transform.localRotation = Quaternion.Euler(_xRotation, 0, _rollAngle * _cameraRollFactor);
+        }
+        else if (_moveInput.x > 0)
+        {
+            _playerCamera.transform.localRotation = Quaternion.Euler(_xRotation, 0, 0 - _rollAngle * _cameraRollFactor);
+        }
+        else
+        {
+            _playerCamera.transform.localRotation = Quaternion.Euler(_xRotation, 0, 0);
+        }
+
+        this.transform.Rotate(Vector3.up * _lookInput.x);
+
+        _sprintHeld = _inputManager.PlayerControls.Sprint.phase == UnityEngine.InputSystem.InputActionPhase.Started;
+        _duckHeld = _inputManager.PlayerControls.Duck.phase == UnityEngine.InputSystem.InputActionPhase.Started;
+        _fireHeld = _inputManager.PlayerControls.Fire.phase == UnityEngine.InputSystem.InputActionPhase.Started;
+
+        float roll = _moveInput.x > 0 ? 0 - _rollAngle : _moveInput.x < 0 ? _rollAngle : 0;
+        roll += _duckHeld ? _duckGunAngle : 0;
+        // animate gun
+        if (_sprintHeld && _moveInput.sqrMagnitude > 0)
+        {
+            if (_weapon.Type == WeaponType.PISTOL || _weapon.Type == WeaponType.SMG)
             {
-                float theta = (Time.time - sprintStartTime) * Mathf.PI * 2 / sprintAnimationPeriod;
+                float theta = (Time.time - _sprintStartTime) * Mathf.PI * 2 / _sprintAnimationPeriod;
                 Vector3 wepPos = new Vector3(0.5f, -0.5f, 0.8f);
                 wepPos.y += 0.2f * Mathf.Sin(theta);
                 wepPos.z -= 0.1f * Mathf.Sin(theta);
                 float weaponZRot = 30 * Mathf.Sin(theta);
 
-                weapon.transform.localPosition = wepPos;
-                weapon.transform.localRotation = Quaternion.Euler(roll, -90f, weaponZRot + 50f);
+                _weapon.transform.localPosition = wepPos;
+                _weapon.transform.localRotation = Quaternion.Euler(roll, -90f, weaponZRot + 50f);
             }
-            else if (weapon.type == WeaponType.RIFLE)
+            else if (_weapon.Type == WeaponType.RIFLE)
             {
-                float theta = (Time.time - sprintStartTime) * Mathf.PI * 2 / sprintAnimationPeriod;
+                float theta = (Time.time - _sprintStartTime) * Mathf.PI * 2 / _sprintAnimationPeriod;
                 Vector3 wepPos = new Vector3(0.5f, -0.8f, 0.6f);
                 wepPos.y += 0.1f * Mathf.Sin(theta);
                 wepPos.x -= 0.5f * Mathf.Cos(theta / 2);
                 float weaponZRot = 15 * Mathf.Sin(theta);
 
-                weapon.transform.localPosition = wepPos;
-                weapon.transform.localRotation = Quaternion.Euler(roll, -174f, weaponZRot);
+                _weapon.transform.localPosition = wepPos;
+                _weapon.transform.localRotation = Quaternion.Euler(roll, -174f, weaponZRot);
             }
         }
         else
         {
-            weapon.transform.localPosition = new Vector3(0.5f, -0.5f, 0.8f);
-            weapon.transform.localRotation = Quaternion.Euler(roll, -90f, 0);
+            _weapon.transform.localPosition = new Vector3(0.5f, -0.5f, 0.8f);
+            _weapon.transform.localRotation = Quaternion.Euler(roll, -90f, 0);
         }
 
         // Shrink player
-        if (duckHeld)
+        Vector3 v = transform.localScale;
+        if (_duckHeld)
         {
-            Vector3 v = transform.localScale;
             v.y = 0.6f;
             transform.localScale = v;
-            weapon.transform.localScale = new Vector3(1, 1.7f, 1);
-            v = weapon.transform.localPosition;
+            _weapon.transform.localScale = new Vector3(1, 1.7f, 1);
+            v = _weapon.transform.localPosition;
             v.x = 0.7f;
-            weapon.transform.localPosition = v;
+            _weapon.transform.localPosition = v;
         }
         else
         {
-            Vector3 v = transform.localScale;
             v.y = 1f;
             transform.localScale = v;
-            weapon.transform.localScale = new Vector3(1, 1, 1);
-            v = weapon.transform.localPosition;
+            _weapon.transform.localScale = new Vector3(1, 1, 1);
+            v = _weapon.transform.localPosition;
             v.x = 0.5f;
-            weapon.transform.localPosition = v;
+            _weapon.transform.localPosition = v;
         }
 
         // fire
-        if (canFire && fireHeld && weapon.fullAuto)
+        if (_canFire && _fireHeld && _weapon.FullAuto)
         {
-            //Debug.Log("We firing boys");
             Shoot();
         }
     }
@@ -264,49 +316,50 @@ public class PlayerController : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (raycastChest != null)
-            currentChest = raycastChest;
+        if (_raycastChest != null)
+        {
+            _currentChest = _raycastChest;
+        }
     }
 
     private void Shoot()
     {
-        if (weapon.clip < 0)
+        if (_weapon.Clip < 0)
         {
-            weapon.PlayReloadAnimation();
+            _weapon.PlayReloadAnimation();
         }
         else
         {
-            weapon.PlayFireAnimation();
+            _weapon.PlayFireAnimation();
 
             // pick end point of laser
-            Vector3 laserStart = weapon.transform.position;
-            Vector3 laserEnd = transform.position + (playerCamera.transform.forward * weapon.range);
+            Vector3 laserStart = _weapon.transform.position;
+            Vector3 laserEnd = transform.position + (_playerCamera.transform.forward * _weapon.Range);
 
-            Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward * playerCamera.farClipPlane);
+            Ray ray = new Ray(_playerCamera.transform.position, _playerCamera.transform.forward * _playerCamera.farClipPlane);
             RaycastHit info;
-            if (Physics.Raycast(ray, out info, playerCamera.farClipPlane, targets))
+            if (Physics.Raycast(ray, out info, _playerCamera.farClipPlane, _targets))
             {
-                //Debug.Log("hit");
-
                 // update laser end position to the point of contact
                 laserEnd = info.point;
 
                 if (info.transform.gameObject.tag == "BreakableObject")
                 {
                     BreakableObject bo = info.transform.gameObject.GetComponent<BreakableObject>();
-                    if (bo.playSoundOnBreak)
-                        GameManager.Instance.PlaySound(bo.breakSound, bo.transform.position);
-
-                    if (!bo.persistent)
+                    if (bo.PlaySoundOnBreak)
                     {
-                        bo.spawner.InvokeRespawn();
-                        Destroy(bo.gameObject);
+                        _gameManager.PlaySound(bo.BreakSound, bo.transform.position);
+                    }
+
+                    if (!bo.Persistent)
+                    {
+                        bo.Destroy();
                     }
                 }
             }
 
             //Invoke("CanFire", weapon.fireDelay);
-            GameManager.Instance.DrawLine(laserStart, laserEnd, weapon.tracerColor, weapon.tracerHeight, weapon.tracerLife);
+            _gameManager.DrawLine(laserStart, laserEnd, _weapon.TracerColor, _weapon.TracerHeight, _weapon.TracerLife);
         }
     }
 
@@ -314,9 +367,11 @@ public class PlayerController : MonoBehaviour
     {
         //Ray ray = new Ray(this.weapon.bulletOrigin.position, this.playerCamera.transform.forward);
         //Gizmos.DrawLine(ray.origin, ray.origin + (ray.direction * 400));
-        currentChest = (raycastChest != null) ? raycastChest : triggerChest;
-        if (currentChest != null)
-            Gizmos.DrawLine(this.transform.position, currentChest.transform.position);
+        _currentChest = (_raycastChest != null) ? _raycastChest : _triggerChest;
+        if (_currentChest != null)
+        {
+            Gizmos.DrawLine(this.transform.position, _currentChest.transform.position);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -325,14 +380,19 @@ public class PlayerController : MonoBehaviour
         {
             LootChest otherChest = other.gameObject.GetComponent<LootChest>();
 
-            if (otherChest.isOpen) return;
+            if (otherChest.IsOpen)
+            { 
+                return;
+            }
 
-            if (triggerChest == null)
-                triggerChest = otherChest;
-            else if ((this.transform.position - otherChest.transform.position).sqrMagnitude < (this.transform.position - triggerChest.transform.position).sqrMagnitude)
+            if (_triggerChest == null)
+            {
+                _triggerChest = otherChest;
+            }
+            else if ((this.transform.position - otherChest.transform.position).sqrMagnitude < (this.transform.position - _triggerChest.transform.position).sqrMagnitude)
             {
                 // else if the new chest is closer, shift focus to that one
-                triggerChest = otherChest;
+                _triggerChest = otherChest;
             }
         }
     }
@@ -341,10 +401,10 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.tag == "Chest")
         {
-            if (other.gameObject.GetComponent<LootChest>() != currentChest) return;
+            if (other.gameObject.GetComponent<LootChest>() != _currentChest) return;
                
             //inChestRange = false;
-            currentChest = null;
+            _currentChest = null;
         }
     }
 
@@ -354,14 +414,14 @@ public class PlayerController : MonoBehaviour
         {
             LootChest otherChest = other.gameObject.GetComponent<LootChest>();
 
-            if (otherChest.isOpen) return;
+            if (otherChest.IsOpen) return;
 
-            if (triggerChest == null)
-                triggerChest = otherChest;
-            else if ((this.transform.position - otherChest.transform.position).sqrMagnitude < (this.transform.position - triggerChest.transform.position).sqrMagnitude)
+            if (_triggerChest == null)
+                _triggerChest = otherChest;
+            else if ((this.transform.position - otherChest.transform.position).sqrMagnitude < (this.transform.position - _triggerChest.transform.position).sqrMagnitude)
             {
                 // else if the new chest is closer, shift focus to that one
-                triggerChest = otherChest;
+                _triggerChest = otherChest;
             }
         }
     }
@@ -369,17 +429,17 @@ public class PlayerController : MonoBehaviour
     private void UpdateCanBools()
     {
         // update canBools
-        canFire = !weapon.isFiring && !weapon.isReloading && !sprintHeld && weapon.clip > 0;
-        canReload = !weapon.isFiring && !weapon.isReloading && weapon.clip < weapon.clipCapacity && weapon.reserve > 0;
+        _canFire = !_weapon.IsFiring && !_weapon.IsReloading && !_sprintHeld && _weapon.Clip > 0;
+        _canReload = !_weapon.IsFiring && !_weapon.IsReloading && _weapon.Clip < _weapon.ClipCapacity && _weapon.Reserve > 0;
     }
 
     private void OnEnable()
     {
-        inputManager.Enable();
+        _inputManager.Enable();
     }
 
     private void OnDisable()
     {
-        inputManager.Disable();
+        _inputManager.Disable();
     }
 }

@@ -140,19 +140,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e467bc4ef3c41134cabce765299437b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lootOffset: {x: 0, y: 0.4, z: 0}
-  lootAngle: 40
-  lootDistance: 1.5
-  lootHeightMax: 1
-  lootLaunchTime: 0.2
-  chestTier: 0
-  loot:
-  - {fileID: 642101118405121969, guid: 592573c12fa7a64419ef0fc1e9c7b796, type: 3}
-  - {fileID: 642101118405121969, guid: 592573c12fa7a64419ef0fc1e9c7b796, type: 3}
-  - {fileID: 642101118405121969, guid: 592573c12fa7a64419ef0fc1e9c7b796, type: 3}
-  - {fileID: 642101118405121969, guid: 592573c12fa7a64419ef0fc1e9c7b796, type: 3}
-  light: {fileID: 3916571180031324151}
-  isOpen: 0
+  _lootOffset: {x: 0, y: 0, z: 0}
+  _lootAngle: 45
+  _lootDistance: 1
+  _lootHeightMax: 1
+  _lootLaunchTime: 0.2
+  _chestTier: 0
+  _loot: []
+  _animator: {fileID: 6025620031973666357}
+  _light: {fileID: 3916571180031324151}
 --- !u!65 &4385298662927209234
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -299,6 +295,12 @@ PrefabInstance:
 --- !u!4 &8376091222498326177 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1938336839645937913, guid: 79e8b0dc9b3659148a5e54b431669ccd,
+    type: 3}
+  m_PrefabInstance: {fileID: 7988120765279106648}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &6025620031973666357 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 4414878922402257005, guid: 79e8b0dc9b3659148a5e54b431669ccd,
     type: 3}
   m_PrefabInstance: {fileID: 7988120765279106648}
   m_PrefabAsset: {fileID: 0}

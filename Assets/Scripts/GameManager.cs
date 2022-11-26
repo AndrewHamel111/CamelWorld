@@ -11,14 +11,19 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get { return _instance; } }
 
     // Game configuration
-    [SerializeField] public Color[] chestColorByQuality;
+    [SerializeField]
+    private Color[] _chestColorByQuality;
 
     // unity components
-    [SerializeField] AudioSource[] audioSources;
-    [SerializeField] float[] audioSourceStartTime;
+    [SerializeField]
+    private AudioSource[] _audioSources;
+
+    [SerializeField]
+    private float[] _audioSourceStartTime;
 
     // Game Assets
-    [SerializeField] public GameObject[] chestMeshes; // chest mesh is ordered by ENUM.
+    [SerializeField]
+    private GameObject[] _chestMeshes; // chest mesh is ordered by ENUM.
 
     // Laser stuff
 
@@ -41,9 +46,9 @@ public class GameManager : MonoBehaviour
     // this should act as an awake method for the script since it will be called each time a new scene is loaded.
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        audioSourceStartTime = new float[audioSources.Length];
-        for (int i = 0; i < audioSourceStartTime.Length; i++)
-            audioSourceStartTime[i] = 0;
+        _audioSourceStartTime = new float[_audioSources.Length];
+        for (int i = 0; i < _audioSourceStartTime.Length; i++)
+            _audioSourceStartTime[i] = 0;
     }
 
     /// <summary>
@@ -57,10 +62,10 @@ public class GameManager : MonoBehaviour
         if (playerIndex == -1)
         {
             // when index is set to -1, use the 'oldest' source to play a sound instead.
-            float min = Mathf.Min(audioSourceStartTime);
-            for(int i = 0; i < audioSourceStartTime.Length; i++)
+            float min = Mathf.Min(_audioSourceStartTime);
+            for(int i = 0; i < _audioSourceStartTime.Length; i++)
             {
-                if (audioSourceStartTime[i] == min)
+                if (_audioSourceStartTime[i] == min)
                 {
                     index = i;
                     break;
@@ -68,9 +73,9 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        audioSources[index].transform.position = soundOrigin;
-        audioSources[index].PlayOneShot(clip);
-        audioSourceStartTime[index] = Time.time;
+        _audioSources[index].transform.position = soundOrigin;
+        _audioSources[index].PlayOneShot(clip);
+        _audioSourceStartTime[index] = Time.time;
     }
 
     public void DrawLine(Vector3 start, Vector3 end, Color color, float width = 0.125f, float lineLife = 0.33f)
@@ -94,5 +99,21 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public Color GetLightColorForChestQuality(ChestTier tier)
+    {
+        switch (tier)
+        {
+            case ChestTier.BASIC:
+                return _chestColorByQuality[0];
+            case ChestTier.GOOD:
+                return _chestColorByQuality[1];
+            case ChestTier.GREAT:
+                return _chestColorByQuality[2];
+            default:
+                Debug.LogErrorFormat("No LightColor found for ChestTier {0}.", tier);
+                return Color.white;
+        }
     }
 }

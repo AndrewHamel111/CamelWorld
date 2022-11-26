@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.43810427, g: 0.48609602, b: 0.5663739, a: 1}
+  m_IndirectSpecularColor: {r: 0.4411398, g: 0.48990577, b: 0.56997806, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -16293,13 +16293,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 705507993}
-  m_LocalRotation: {x: 0.5295261, y: -0.4083316, z: 0.32280427, w: 0.6698245}
+  m_LocalRotation: {x: -0.47935045, y: -0.32276574, z: 0.2611407, w: -0.77320826}
   m_LocalPosition: {x: 15.29, y: 11.42, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 76.656006, y: -62.734, z: 0}
+  m_LocalEulerAnglesHint: {x: 65.485, y: -323.163, z: -13.150001}
 --- !u!1 &768238225
 GameObject:
   m_ObjectHideFlags: 0
@@ -18605,7 +18605,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 834985277}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.8, z: 0}
+  m_LocalPosition: {x: 0, y: -0.925, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2014154991}
@@ -48695,16 +48695,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f50a71ede59c274c9e7e6b02c2d0057, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chestColorByQuality:
-  - {r: 0.8962264, g: 0.8497241, b: 0.8497241, a: 1}
-  - {r: 0.21150766, g: 0.28393173, b: 0.9150943, a: 0}
-  - {r: 0.9056604, g: 0.52302325, b: 0.12388753, a: 0}
-  audioSources:
-  - {fileID: 1933299408}
-  - {fileID: 1031017903}
-  - {fileID: 45018618}
-  audioSourceStartTime: []
-  chestMeshes: []
+  _chestColorByQuality: []
+  _audioSources: []
+  _audioSourceStartTime: []
+  _chestMeshes: []
 --- !u!4 &1773191837
 Transform:
   m_ObjectHideFlags: 0
@@ -73384,7 +73378,7 @@ GameObject:
   - component: {fileID: 2014154988}
   - component: {fileID: 2014154993}
   m_Layer: 0
-  m_Name: PlayerCapsule
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -73480,35 +73474,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f97e66c80d4348d4d87ab652a01ad731, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxPlayerSpeed: 6
-  sprintBonus: 1.5
-  sprintAnimationPeriod: 0.6
-  jumpSpeed: 13
-  rollAngle: 15
-  duckGunAngle: 30
-  cameraRollFactor: 0.05
-  lookSensitivity: 0.046
-  gravity: -30
-  groundDistance: 0.4
-  chestReach: 3
-  groundMask:
+  _maxPlayerSpeed: 10
+  _sprintBonus: 1.2
+  _sprintAnimationPeriod: 1
+  _jumpSpeed: 12
+  _rollAngle: 15
+  _duckGunAngle: 0
+  _cameraRollFactor: 0
+  _lookSensitivity: 0.05
+  _gravity: -9.81
+  _groundDistance: 0.15
+  _chestReach: 3
+  _groundMask:
     serializedVersion: 2
-    m_Bits: 1536
-  interactableMask:
+    m_Bits: 512
+  _interactableMask:
     serializedVersion: 2
     m_Bits: 2048
-  targets:
+  _targets:
     serializedVersion: 2
-    m_Bits: 1792
-  sprintStartTime: 0
-  weapon: {fileID: 1662863176}
-  controller: {fileID: 2014154993}
-  capsuleCollider: {fileID: 2014154988}
-  playerCamera: {fileID: 963194227}
-  groundCheck: {fileID: 834985278}
-  clipText: {fileID: 1208000022}
-  reserveText: {fileID: 88983613}
-  interactText: {fileID: 524042014}
+    m_Bits: 0
+  _weapon: {fileID: 1662863176}
+  _controller: {fileID: 2014154993}
+  _capsuleCollider: {fileID: 2014154988}
+  _playerCamera: {fileID: 963194227}
+  _groundCheck: {fileID: 834985278}
+  _clipText: {fileID: 1208000022}
+  _reserveText: {fileID: 88983613}
+  _interactText: {fileID: 524042014}
 --- !u!143 &2014154993
 CharacterController:
   m_ObjectHideFlags: 0

@@ -304,29 +304,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0915cf96341a58f49b0a8ffa504b6d9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 20
-  range: 18
-  type: 2
-  fullAuto: 1
-  clipCapacity: 30
-  maxReserve: 90
-  fireDelay: 0.15
-  recoilDelay: 0
-  kick: 0
-  spread: 0
-  tracerColor: {r: 0.9607844, g: 0.4784314, b: 0.08235294, a: 1}
-  tracerHeight: 0.08
-  tracerLife: 0.25
-  clip: 30
-  reserve: 90
-  isFiring: 0
-  isFireAnimationPlaying: 0
-  isReloading: 0
-  reloadAnimationTime: 1
-  fireAnimationTime: 1
-  fireSound: {fileID: 8300000, guid: 68b61e604c376854994670411545727b, type: 3}
-  fireSoundPitchVariance: 0
-  animator: {fileID: 9106831147783445700}
+  _damage: 10
+  _range: 10
+  _type: 2
+  _fullAuto: 1
+  _clipCapacity: 30
+  _maxReserve: 60
+  _fireDelay: 0.1
+  _recoilDelay: 0.05
+  _kick: 0
+  _spread: 0
+  _tracerColor: {r: 0.745283, g: 0.6458906, b: 0.13710396, a: 0.7529412}
+  _tracerHeight: 1
+  _tracerLife: 1
+  _reloadAnimationTime: 0.8
+  _fireAnimationTime: 0.2
+  _fireSound: {fileID: 8300000, guid: 1ad20b99ce38e1440862242ac0a010d7, type: 3}
+  _fireSoundPitchVariance: 0
+  _animator: {fileID: 9106831147783445700}
 --- !u!1 &8552368228567038127
 GameObject:
   m_ObjectHideFlags: 0

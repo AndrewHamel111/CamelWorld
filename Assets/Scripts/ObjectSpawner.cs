@@ -15,7 +15,7 @@ public class ObjectSpawner : MonoBehaviour
             BreakableObject bo = go.GetComponent<BreakableObject>();
             if (bo != null)
             {
-                bo.spawner = this;
+                bo.Init(this);
             }
         }
     }

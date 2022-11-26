@@ -1,14 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class BreakableObject : MonoBehaviour
+public class BreakableObject : SpawnableObject
 {
     // by default objects will break after any damage
-    public int hp = 1;
-    public bool playSoundOnBreak;
-    public AudioClip breakSound;
-    public bool persistent;
+    [SerializeField]
+    private int _hp = 1;
+    
+    [SerializeField]
+    private bool _playSoundOnBreak;
+    public bool PlaySoundOnBreak => _playSoundOnBreak;
 
-    [SerializeField] public ObjectSpawner spawner;
+    [SerializeField]
+    private AudioClip _breakSound;
+    public AudioClip BreakSound => _breakSound;
 }
