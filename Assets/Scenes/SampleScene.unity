@@ -18605,7 +18605,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 834985277}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.925, z: 0}
+  m_LocalPosition: {x: 0, y: -0.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2014154991}
@@ -48696,7 +48696,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chestColorByQuality: []
-  _audioSources: []
+  _audioSources:
+  - {fileID: 1933299408}
+  - {fileID: 1031017903}
+  - {fileID: 45018618}
   _audioSourceStartTime: []
   _chestMeshes: []
 --- !u!4 &1773191837
@@ -73452,7 +73455,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2014154987}
-  m_LocalRotation: {x: -0, y: 0.7070495, z: -0, w: 0.7071641}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.49, y: 5, z: 2.48}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -73461,7 +73464,7 @@ Transform:
   - {fileID: 1740207150}
   m_Father: {fileID: 0}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 89.991005, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2014154992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73482,8 +73485,8 @@ MonoBehaviour:
   _duckGunAngle: 0
   _cameraRollFactor: 0
   _lookSensitivity: 0.05
-  _gravity: -9.81
-  _groundDistance: 0.15
+  _gravity: -20
+  _groundDistance: 0.4
   _chestReach: 3
   _groundMask:
     serializedVersion: 2
@@ -73533,30 +73536,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 963194228}
     m_Modifications:
-    - target: {fileID: 2719540904735881089, guid: 0d832888cd024ff41b9c23db9159e269,
-        type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4258155258347260622, guid: 0d832888cd024ff41b9c23db9159e269,
-        type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7891670307980424566, guid: 0d832888cd024ff41b9c23db9159e269,
-        type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8259777072278626710, guid: 0d832888cd024ff41b9c23db9159e269,
         type: 3}
       propertyPath: m_Name
       value: mp5_noref
-      objectReference: {fileID: 0}
-    - target: {fileID: 8552368228567038127, guid: 0d832888cd024ff41b9c23db9159e269,
-        type: 3}
-      propertyPath: m_Layer
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8785203255969135404, guid: 0d832888cd024ff41b9c23db9159e269,
         type: 3}

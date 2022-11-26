@@ -74,7 +74,7 @@ public class Weapon : MonoBehaviour
     public float TracerLife => _tracerLife;
 
     // runtime
-    [Header("Runtime Variables")]
+    //[Header("Runtime Variables")]
     private int _clip;
     private int _reserve;
     private bool _isFiring = false;
@@ -108,6 +108,8 @@ public class Weapon : MonoBehaviour
     private void Start()
     {
         _gameManager = GameManager.Instance;
+        _clip = _clipCapacity;
+        _reserve = _maxReserve;
     }
 
     public void PlayFireAnimation()
@@ -130,26 +132,12 @@ public class Weapon : MonoBehaviour
 
         _animator.Play("reload");
 
-        StartCoroutine(FinishReload());
+        // todo start some kind of timer which is longer than the reload animation and if it expires there was a problem reloading and we shouldn't softlock the player's state which currently would happen
     }
 
     void FinishFire()
     {
         _isFiring = false;
-        ResetGunState();
-    }
-
-    // function waits until reload is finished to reset gun state
-    IEnumerator FinishReload()
-    {
-        while(_isReloading)
-        {
-            yield return null;
-        }
-
-        int bulletsNeeded = Mathf.Min(_clipCapacity - _clip, _reserve);
-        _clip += bulletsNeeded;
-        _reserve -= bulletsNeeded;
         ResetGunState();
     }
 
@@ -159,5 +147,15 @@ public class Weapon : MonoBehaviour
             _animator.Play("empty");
         else
             _animator.Play("none");
+    }
+
+    public void OnReloadAnimationFinish()
+    {
+        _isReloading = false;
+
+        int bulletsNeeded = Mathf.Min(_clipCapacity - _clip, _reserve);
+        _clip += bulletsNeeded;
+        _reserve -= bulletsNeeded;
+        ResetGunState();
     }
 }

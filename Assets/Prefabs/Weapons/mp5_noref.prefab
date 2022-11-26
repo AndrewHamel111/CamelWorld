@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7020805081959331385}
   - component: {fileID: 4138916346941415407}
   - component: {fileID: 9018110127147352018}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 2694978855132492161}
   - component: {fileID: 3650848982823670051}
   - component: {fileID: 1583135896763421780}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Mag
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -169,7 +169,7 @@ GameObject:
   - component: {fileID: 8971716441207487772}
   - component: {fileID: 4556174660920542120}
   - component: {fileID: 2807837653885564005}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Charge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -305,7 +305,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 10
-  _range: 10
+  _range: 35
   _type: 2
   _fullAuto: 1
   _clipCapacity: 30
@@ -315,8 +315,8 @@ MonoBehaviour:
   _kick: 0
   _spread: 0
   _tracerColor: {r: 0.745283, g: 0.6458906, b: 0.13710396, a: 0.7529412}
-  _tracerHeight: 1
-  _tracerLife: 1
+  _tracerHeight: 0.075
+  _tracerLife: 0.33
   _reloadAnimationTime: 0.8
   _fireAnimationTime: 0.2
   _fireSound: {fileID: 8300000, guid: 1ad20b99ce38e1440862242ac0a010d7, type: 3}
@@ -333,7 +333,7 @@ GameObject:
   - component: {fileID: 5166984934493509373}
   - component: {fileID: 3358879107925848869}
   - component: {fileID: 6759115555823660001}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}

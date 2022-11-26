@@ -61,7 +61,8 @@ public class PlayerController : MonoBehaviour
     // weapon variables
     private bool _canFire;
     private bool _canReload;
-    public Weapon _weapon;
+    [SerializeField]
+    private Weapon _weapon;
 
     // other variables
     LootChest _currentChest;
@@ -177,12 +178,9 @@ public class PlayerController : MonoBehaviour
 
         if (_isGrounded && _velocity.y < 0)
         {
-            _velocity.y = -2.0f;
+            _velocity.y = 0.0f;
         }
-        else
-        {
-            _velocity.y += _gravity * Time.deltaTime;
-        }
+        _velocity.y += _gravity * Time.deltaTime;
 
         // some checking raycasts
         Ray ray = new Ray(_playerCamera.transform.position, _playerCamera.transform.forward * _playerCamera.farClipPlane);
